@@ -14,7 +14,7 @@
 :root{
   --bg:#f5f6f9; --surface:#ffffff; --ink:#18202e; --muted:#5a6476; --line:#dde1ea; --grid:rgba(40,60,120,.05);
   --accent:#2a46c9; --accent-soft:#e7ebfb; --code-bg:#121a2a; --code-fg:#e3e8f5; --code-key:#ffcf5c; --code-str:#8be0b8;
-  --apps:#8c3bb8; --automate:#1f6fd1; --bi:#c98a00; --pages:#0f8a7a; --copilot:#c2185b;
+  --warn:#b3261e; --ok:#1a7f4b; --apps:#8c3bb8; --automate:#1f6fd1; --bi:#c98a00; --pages:#0f8a7a; --copilot:#c2185b;
   --display:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
@@ -22,11 +22,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0f141e; --surface:#171e2b; --ink:#e6eaf2; --muted:#9aa4b8; --line:#2a3344; --grid:rgba(150,170,230,.05);
   --accent:#8ea2ff; --accent-soft:#1f2a4a; --code-bg:#0a0f18; --code-fg:#dfe5f3;
-  --apps:#c58bea; --automate:#6fa8f0; --bi:#f0c04a; --pages:#4fc8b6; --copilot:#f07aa6; color-scheme:dark}}
+  --warn:#ff8a7a; --ok:#5fd394; --apps:#c58bea; --automate:#6fa8f0; --bi:#f0c04a; --pages:#4fc8b6; --copilot:#f07aa6; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0f141e; --surface:#171e2b; --ink:#e6eaf2; --muted:#9aa4b8; --line:#2a3344; --grid:rgba(150,170,230,.05);
   --accent:#8ea2ff; --accent-soft:#1f2a4a; --code-bg:#0a0f18; --code-fg:#dfe5f3;
-  --apps:#c58bea; --automate:#6fa8f0; --bi:#f0c04a; --pages:#4fc8b6; --copilot:#f07aa6; color-scheme:dark}
+  --warn:#ff8a7a; --ok:#5fd394; --apps:#c58bea; --automate:#6fa8f0; --bi:#f0c04a; --pages:#4fc8b6; --copilot:#f07aa6; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;
@@ -86,11 +86,28 @@ section + section{border-top:1px solid var(--line)}
 
 /* news */
 .timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.timeline li{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding-block:18px;border-bottom:1px dashed var(--line)}
-.timeline li:last-child{border-bottom:0}
+.timeline > li{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding-block:18px;border-bottom:1px dashed var(--line)}
+.timeline > li:last-child{border-bottom:0}
 .timeline .when{font-family:var(--mono);font-size:.82rem;color:var(--accent);padding-top:3px}
 .timeline h3{margin-bottom:6px}
 .timeline p{color:var(--muted);font-size:.95rem;max-width:42em}
+.timeline > li > div{min-width:0}
+.feat{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:10px;max-width:46em}
+.feat li{font-size:.95rem;color:var(--muted);line-height:1.6}
+.feat strong{color:var(--ink);font-weight:700;margin-right:6px}
+.pill{display:inline-block;font-family:var(--mono);font-size:.72rem;font-weight:500;padding:1px 7px;border-radius:3px;border:1px solid currentColor;margin-right:8px;vertical-align:1px}
+.pill.ga{color:var(--ok)} .pill.pv{color:var(--accent)} .pill.etc{color:var(--muted)}
+.src{margin-top:10px;font-size:.82rem;color:var(--muted)}
+.deadlines{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px;margin-bottom:28px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.deadlines .note{color:var(--muted);font-size:.93rem}
+.table-scroll{overflow-x:auto;margin-top:6px}
+.deadlines table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:560px}
+.deadlines th{text-align:left;font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;color:var(--muted);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--line)}
+.deadlines td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.deadlines tr:last-child td{border-bottom:0}
+.deadlines td.d{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+.deadlines td.d.urgent{color:var(--warn);font-weight:500}
+.deadlines td.d.urgent::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--warn);margin-right:7px;vertical-align:1px}
 
 /* learning path */
 .path{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border:1px solid var(--line);border-radius:6px;background:var(--surface);overflow:hidden}
@@ -106,7 +123,7 @@ footer .wrap{padding-block:32px;display:flex;flex-direction:column;gap:8px}
 
 @media (max-width:760px){
   .hero .wrap{grid-template-columns:minmax(0,1fr);padding-block:40px}
-  .timeline li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .timeline > li{grid-template-columns:minmax(0,1fr);gap:4px}
   .step{border-right:0;border-bottom:1px solid var(--line)}
   .step:last-child{border-bottom:0}
   .member.lead{flex-direction:column;align-items:flex-start}
@@ -123,7 +140,7 @@ footer .wrap{padding-block:32px;display:flex;flex-direction:column;gap:8px}
       <li><a href="#about">소개</a></li>
       <li><a href="#board">임원진</a></li>
       <li><a href="#platform">Power Platform</a></li>
-      <li><a href="#news">2026 소식</a></li>
+      <li><a href="#news">최신 소식</a></li>
       <li><a href="#learn">학습 경로</a></li>
     </ul></nav>
   </div>
@@ -220,30 +237,66 @@ footer .wrap{padding-block:32px;display:flex;flex-direction:column;gap:8px}
   <section id="news">
     <div class="wrap">
       <div class="sec-head">
-        <p class="label">What's New</p>
-        <h2>2026년, 달라진 것들</h2>
-        <p>올해 Power Platform에서 실무자가 꼭 알아야 할 변화를 정리했습니다.</p>
+        <p class="label">Latest News · 2026.11.13 업데이트</p>
+        <h2>최신 Power Platform 소식</h2>
+        <p>Microsoft 공식 블로그와 Learn 문서를 바탕으로, 실무자가 알아야 할 변화와 마감 일정을 정리했습니다.</p>
       </div>
+
+      <div class="deadlines">
+        <h3>꼭 챙겨야 할 일정</h3>
+        <p class="note">기존 환경과 기능이 중단되는 날짜입니다. 사내 개발자 환경과 Teams 앱을 쓰고 있다면 미리 점검하세요.</p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th scope="col">날짜</th><th scope="col">변경 내용</th><th scope="col">해야 할 일</th></tr></thead>
+            <tbody>
+              <tr><td class="d urgent">2026.11.15</td><td>관리되지 않는(unmanaged) 개발자 환경과 Dataverse for Teams 환경의 신규 생성 종료</td><td>새 개발자 환경은 관리형으로 사용자당 1개까지 만들 수 있습니다</td></tr>
+              <tr><td class="d urgent">2026.11.30</td><td>Power Automate의 "Describe it to design it"(설명으로 클라우드 흐름 만들기) 종료</td><td>기존 흐름은 영향 없음. 교육 자료의 해당 실습을 교체하세요</td></tr>
+              <tr><td class="d">2026.12.11</td><td>Power Apps Ideas, "Create a formula", 캔버스 앱 "Rename controls with Copilot" 종료</td><td>"Explain this formula"는 계속 사용할 수 있습니다</td></tr>
+              <tr><td class="d urgent">2026.12.15</td><td>기존 관리되지 않는 개발자 환경 일시 중단. 앱·흐름·에이전트·데이터에 접근 불가</td><td>이 날짜 전에 관리형 환경으로 전환하거나 솔루션을 내보내세요</td></tr>
+              <tr><td class="d">2027.01.15</td><td>일시 중단된 개발자 환경 삭제 시작</td><td>12월 15일 전에 백업을 끝내세요</td></tr>
+              <tr><td class="d">2027.09.15</td><td>업그레이드하지 않은 Dataverse for Teams 환경 일시 중단 (10월 30일 폐기)</td><td>Dataverse 환경으로 업그레이드할 대상을 미리 정리하세요</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="src">출처: <a href="https://learn.microsoft.com/power-platform/important-changes-coming" target="_blank" rel="noopener">Important changes coming in Power Platform (Microsoft Learn)</a></p>
+      </div>
+
       <ol class="timeline">
         <li>
-          <div class="when">2026 하반기</div>
+          <div class="when">2026.11.17<br>예정</div>
+          <div><h3>Microsoft Ignite 2026 개막</h3>
+          <p>11월 17일부터 20일까지 샌프란시스코에서 Microsoft Ignite가 열립니다. Copilot Studio와 Power Platform의 새 발표는 행사 후 이 페이지에 정리할 예정입니다.</p></div>
+        </li>
+        <li>
+          <div class="when">2026.11.10</div>
+          <div><h3>10·11월 기능 업데이트: 업무 앱에 AI가 들어오다</h3>
+          <ul class="feat">
+            <li><span class="pill pv">프리뷰</span><strong>Work IQ의 비즈니스 앱</strong> 자연어 대화로 모델 기반 앱 데이터를 찾고 만들고 고칩니다. 제출 전에 사용자가 변경 내용을 확인합니다.</li>
+            <li><span class="pill pv">프리뷰</span><strong>AI 행 요약</strong> 모던 데이터 그리드에서 Dataverse 행을 AI가 요약합니다. ShowAIRowSummary 속성으로 켭니다.</li>
+            <li><span class="pill pv">프리뷰</span><strong>모던 첨부 파일 컨트롤</strong> 여러 파일 선택, 썸네일, 드래그 앤 드롭을 지원하며 SharePoint 목록과 Dataverse에서 쓸 수 있습니다.</li>
+            <li><span class="pill pv">프리뷰</span><strong>GitHub 연동 캔버스 앱 에이전트 편집</strong> GitHub 로그인으로 에이전트가 캔버스 앱을 수정합니다. 사용량은 GitHub로 과금됩니다.</li>
+            <li><span class="pill pv">프리뷰</span><strong>데스크톱 흐름 예약 트리거와 플로우차트 모드</strong> 클라우드 흐름 없이 Automation center에서 RPA를 예약하고, 실행 경로를 노드 그림으로 디버깅합니다.</li>
+            <li><span class="pill pv">프리뷰</span><strong>관리자용 자연어 질의와 모니터 알림</strong> 환경·소유권·정책 현황을 자연어로 묻고, 모니터 알림을 Teams 등으로 보내며 지표를 OpenTelemetry 형식으로 내보냅니다.</li>
+            <li><span class="pill etc">신규</span><strong>모던 컨트롤 4종과 데이터 그리드 페이지 나누기</strong> Avatar group, Persona, Metrics card, Card gallery가 추가되었습니다.</li>
+          </ul>
+          <p class="src">출처: <a href="https://www.microsoft.com/en-us/power-platform/blog/power-apps/whats-new-in-power-platform-october-2026-feature-update/" target="_blank" rel="noopener">What's new in Power Platform: October/November 2026 (Microsoft Power Platform Blog)</a></p></div>
+        </li>
+        <li>
+          <div class="when">2026.09.17</div>
+          <div><h3>9월 기능 업데이트: 코딩 에이전트로 앱 만들기 정식 출시</h3>
+          <ul class="feat">
+            <li><span class="pill ga">GA</span><strong>캔버스 앱 authoring agent 플러그인</strong> 코딩 에이전트로 캔버스 앱을 만들고 수정합니다.</li>
+            <li><span class="pill ga">GA</span><strong>모델 기반 앱 빌더 스킬</strong> 자연어 요구사항으로 테이블, 폼, 뷰, 보안 역할까지 앱 전체를 생성합니다.</li>
+            <li><span class="pill ga">GA</span><strong>모델 기반 앱 새 헤더와 탐색</strong> 화면 공간이 넓어진 새 디자인을 선택해서 적용할 수 있습니다.</li>
+            <li><span class="pill pv">프리뷰</span><strong>생성형 페이지에서 커넥터 데이터 사용</strong> Dataverse 외에 SharePoint, SQL 데이터도 쓸 수 있습니다.</li>
+            <li><span class="pill etc">신규</span><strong>Power CAT 실습 랩 20개와 Fluent 2 화면 템플릿 6종</strong> 교육 과정에 바로 활용할 수 있습니다.</li>
+          </ul>
+          <p class="src">출처: <a href="https://www.microsoft.com/en-us/power-platform/blog/power-apps/whats-new-in-power-platform-september-2026-feature-update/" target="_blank" rel="noopener">What's new in Power Platform: September 2026 (Microsoft Power Platform Blog)</a></p></div>
+        </li>
+        <li>
+          <div class="when">2026.09</div>
           <div><h3>릴리스 웨이브 종료, 상시 업데이트로 전환</h3>
           <p>반기마다 묶어서 내던 릴리스 웨이브 방식이 2026 Wave 1을 끝으로 마무리되었습니다. 앞으로는 프리뷰와 정식 출시 기능이 수시로 나오고, Microsoft의 AI at Work Roadmap에 게시됩니다. 반기 계획 대신 변경 사항을 꾸준히 확인하는 운영 체계가 필요합니다.</p></div>
-        </li>
-        <li>
-          <div class="when">Power Apps</div>
-          <div><h3>AI 중심의 새 앱 제작 경험</h3>
-          <p>자연어로 원하는 앱을 설명하면 AI가 앱과 데이터 모델을 함께 만드는 새로운 Power Apps 경험이 프리뷰로 제공되고 있습니다. 이른바 바이브 코딩 방식이 로우코드 영역으로 들어왔습니다.</p></div>
-        </li>
-        <li>
-          <div class="when">Copilot Studio</div>
-          <div><h3>에이전트와 워크플로를 한 곳에서</h3>
-          <p>Copilot Studio에서 에이전트와 워크플로를 함께 설계하고 관리할 수 있게 되었고, 앱 제작 기능도 프리뷰로 추가되었습니다. 도구를 오가지 않고 하나의 업무 솔루션을 완성할 수 있습니다.</p></div>
-        </li>
-        <li>
-          <div class="when">거버넌스</div>
-          <div><h3>보안 태세와 거버넌스 강화</h3>
-          <p>메이커 생산성뿐 아니라 보안 태세, 거버넌스, 테스트, 분석 기능이 함께 강화되고 있습니다. 시민 개발이 늘어날수록 관리 센터를 통한 환경 관리가 중요해집니다.</p></div>
         </li>
       </ol>
     </div>
